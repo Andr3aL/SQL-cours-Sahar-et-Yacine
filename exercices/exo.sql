@@ -96,8 +96,13 @@ FROM employes
 
 /* 7. Afficher 10 employés à partir de l'enregistrement 10 */ 
 
+-- SELECT nom, prenom, service, salaire 
+-- FROM employes LIMIT 10,20
+
+/* 7. Afficher 10 employés à partir de l'enregistrement 10 */ 
+
 SELECT nom, prenom, service, salaire 
-FROM employes LIMIT 10,20
+FROM employes LIMIT 9,10;
 
 /* 8. Afficher les informations de l'employé du service commercial gagnant le salaire le plus élevé */ 
 
