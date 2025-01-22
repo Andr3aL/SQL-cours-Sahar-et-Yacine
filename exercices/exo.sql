@@ -95,6 +95,7 @@ SELECT COUNT(DISTINCT service) AS nb_de_services
 FROM employes
 
 /* 7. Afficher 10 employés à partir de l'enregistrement 10 */ 
+-- Pas bon (ne répond pas à la question posée)
 
 -- SELECT nom, prenom, service, salaire 
 -- FROM employes LIMIT 10,20
