@@ -46,21 +46,27 @@ WHERE prenom='Amandine'
 
 /* 1. Afficher le nombre de commerciaux */
 
-SELECT service AS commerciaux, COUNT(*) 
+SELECT service, COUNT(*) AS nombre_commerciaux 
 FROM employes 
 WHERE service='commercial'
 
 /* 2. Afficher le coût des commerciaux sur une année */
 
-SELECT SUM(salaire*8) 
+-- SELECT SUM(salaire*8) 
+-- FROM employes 
+-- WHERE service='commercial'
+
+/* 2. Afficher le coût des commerciaux sur une année */
+-- bonne réponse
+SELECT SUM(salaire*12) AS cout_commerciaux_par_année
 FROM employes 
 WHERE service='commercial'
 
 /* 3. Afficher le salaire moyen par service */
 
-SELECT service, AVG(salaire) 
+SELECT service, round(AVG(salaire)) AS salaire_moyen
 FROM employes
-GROUP BY service
+GROUP BY service;
 
 /* 4. Afficher le nombre de recrutement sur l'année 2010 */
 -- Pas bon, à refaire
@@ -71,14 +77,24 @@ WHERE date_embauche BETWEEN '2010-01-23' AND '2010-07-05'
 GROUP BY date_embauche
 
 -- BON !
-SELECT COUNT(*) AS nombre_recrutements
+SELECT COUNT(*) AS nombre_recrutements_sur_année_2010 
 FROM employes
 WHERE YEAR(date_embauche) = 2010;
 
 -- Autre façon de faire : 
-SELECT COUNT(*) AS nombre_recrutements 
+SELECT COUNT(*) AS nombre_recrutements_sur_année_2010 
 FROM employes 
 WHERE date_embauche BETWEEN '2010-01-01' AND '2011-01-01'
+
+-- Autre façon de faire : 
+SELECT COUNT(*) AS nombre_recrutements_sur_année_2010 
+FROM employes 
+WHERE date_embauche > '2010-01-01' and date_embauche < '2011-01-01'
+
+-- Autre façon de faire : 
+SELECT COUNT(*) AS nombre_recrutements_sur_année_2010 
+FROM employes 
+WHERE date_embauche LIKE '2010%'
 
 /* 5. Augmenter le salaire pour chaque employé de 100€ */ 
  
@@ -105,21 +121,53 @@ FROM employes
 SELECT nom, prenom, service, salaire 
 FROM employes LIMIT 9,10;
 
+/* 7. Afficher 10 employés à partir de l'enregistrement 10 */ 
+-- autre façon avec OFFSET
+SELECT nom, prenom, service, salaire 
+FROM employes 
+LIMIT 10 OFFSET 9;
+
 /* 8. Afficher les informations de l'employé du service commercial gagnant le salaire le plus élevé */ 
 
-SELECT nom, prenom, sexe, service, date_embauche, salaire, id_employes
+SELECT *
 FROM employes
 WHERE service = 'commercial' AND salaire = (SELECT MAX(salaire) FROM employes WHERE service = 'commercial');
 
 
 -- autre façon de faire plus courte, plus rapide : 
-SELECT nom, prenom, sexe, service, date_embauche, salaire, id_employes
+SELECT *
 FROM employes
 WHERE salaire = (SELECT MAX(salaire) FROM employes WHERE service = 'commercial');
 
+-- autre façon : 
+SELECT *
+FROM employes
+WHERE service='commercial'
+ORDER BY salaire DESC LIMIT 1
+
 /* 9. Afficher l'employé ayant été embauché en dernier */ 
 
-SELECT nom, prenom, sexe, service, date_embauche, salaire, id_employes
+SELECT *
 FROM employes
 WHERE date_embauche = (SELECT MAX(date_embauche) FROM employes);
+
+-- Autre façon
+SELECT *
+FROM employes
+ORDER BY date_embauche DESC LIMIT 1
+
+-- 10. Afficher les salaires qui sont touchées par plus qu'un employé
+
+SELECT salaire, COUNT(*) AS nbre_employés
+FROM employes
+GROUP BY salaire
+HAVING COUNT(*) > 1
+
+-- 10. Afficher les salaires qui sont touchées par plus qu'un employé
+-- autre façon, plus rapide au niveau de l'exécution de la requête (code optimisé)
+SELECT salaire, COUNT(salaire) AS nbre_employés
+FROM employes
+GROUP BY salaire
+HAVING COUNT(salaire) > 1
+
 
