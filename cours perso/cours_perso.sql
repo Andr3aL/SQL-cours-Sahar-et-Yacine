@@ -18,3 +18,6 @@ INSERT INTO mange_bonbon(id_bonbons, id_stagiaires, date_manger, quantite) VALUE
 
 
 
+ALTER TABLE mange_bonbon ADD id_bonbons INT DEFAULT NULL;
+
+
