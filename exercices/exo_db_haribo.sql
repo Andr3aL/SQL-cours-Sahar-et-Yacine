@@ -277,15 +277,28 @@ WHERE quantite != 0;
 
 SELECT COUNT(*) AS nb_tagada_par_stagiaire
 FROM mange_bonbon
+JOIN stagiaires ON mange_bonbon.id_stagiaires = stagiaires.id_stagiaires
+JOIN bonbons ON mange_bonbon.id_bonbons = bonbons.id_bonbons
 WHERE id_bonbons = 2;
+
+
+
+SELECT COUNT(*) AS nb_tagada_par_stagiaire
+FROM mange_bonbon
+JOIN stagiaires ON mange_bonbon.prenom = stagiaires.prenom
+JOIN bonbons ON mange_bonbon.nom = bonbons.nom
+WHERE mange_bonbon.id_bonbons = 2;
 
 
 -- Afficher cette fois le total de "tagada" consommées
 -- PAS OK
 
-SELECT SUM('tagada') AS nb_total_tagada_conso
+SELECT SUM() AS nb_tagada_par_stagiaire
 FROM mange_bonbon
-WHERE 
+JOIN stagiaires ON mange_bonbon.id_stagiaires = stagiaires.id_stagiaires
+JOIN bonbons ON mange_bonbon.id_bonbons = bonbons.id_bonbons
+WHERE id_bonbons = 2;
+
 
 
 
