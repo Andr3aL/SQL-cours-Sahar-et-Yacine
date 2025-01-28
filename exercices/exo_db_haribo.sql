@@ -8,22 +8,31 @@ INSERT INTO stagiaires(id_stagiaires, prenom, yeux, genre) VALUES (100, 'Delmmma
 
 -- Rajouter un nouveau stagiaire *Mamadou* SANS forcer la numérotation de l'id, yeux(bleu)
 
-INSERT INTO stagiaires(prenom, yeux) VALUES ('Mamadou', 'bleu');
+INSERT INTO stagiaires(prenom, yeux, genre) VALUES ('Mamadou', 'bleu', 'm');
 
 -- Changer le prénom du stagiaire qui a l'id 100 de *Delmmma* à *Delma*
 
 UPDATE stagiaires
 SET prenom='Delma'
-WHERE id = 100;
+WHERE id_stagiaires = 100;
 
 -- Rajouter dans la table mange_bonbon que Delma a mangé 5 Tagada purple le 15 septembre 2018
 
-INSERT INTO bonbons(nom, saveur) VALUES ('tagada', 'purple');
+INSERT INTO bonbons(id_bonbons, nom, saveur) VALUES (12, 'tagada', 'purple');
 INSERT INTO 
 
+INSERT INTO mange_bonbon(id_mange_bonbon, id_bonbons, id_stagiaires, date_manger, quantité) VALUES (12, 12, 100, '2018-09-15', 5);
 
 
-INSERT INTO mange_bonbon(quantite, id_bonbons, saveur, date_manger) VALUES (5, 'Delma', 'vert');
+Correction : 
+
+1ère étape, 1ère méthode : 
+INSERT INTO bonbons SET nom = 'tagada', saveur = 'purple';
+2ème méthode : 
+INSERT INTO bonbons(nom, saveur) VALUES ('tagada', 'purple');
+
+2ème étape : 
+INSERT INTO mange_bonbon(id_bonbons, id_stagiaires, date_manger, quantite) VALUES (12, 100, '2018-09-15', 5);
 
 -- Sélectionner tous les noms des bonbons
 
@@ -56,6 +65,15 @@ SELECT *
 FROM stagiaires
 WHERE id_stagiaires != 3;
 
+Autre façon de faire : 
+SELECT *
+FROM stagiaires
+WHERE id_stagiaires <> 3;
+
+Autre façon de faire :
+SELECT *
+FROM stagiaires
+WHERE id_stagiaires < 3 OR id_stagiaires > 3;
 
 -- Sélectionner tous les stagiaires qui ont un id inférieur ou égal à 10
 
@@ -69,6 +87,11 @@ WHERE id_stagiaires <= 10;
 SELECT *
 FROM stagiaires
 WHERE id_stagiaires BETWEEN 7 AND 11;
+
+Autre méthode :
+SELECT *
+FROM stagiaires
+WHERE id_stagiaires >= 7 AND id_stagiaires <= 11;
 
 -- Sélectionner les stagiaires dont le prénom commence par un *S*
 
@@ -96,17 +119,28 @@ ORDER BY prenom ASC;
 
 SELECT *
 FROM stagiaires
-ORDER BY genre ASC, yeux ASC;
+ORDER BY genre DESC, yeux ASC;
 
 
 -- Limiter l'affichage d'une requête de sélection de tous les stagiaires aux 3 premiers résultats
 
 SELECT *
 FROM stagiaires
-LIMIT 3;
+LIMIT 0,3; 
+-- LIMIT 3; fonctionne mais il faut conventionnellement écrire LIMIT 0,3;
+
+
 
 -- Limiter l'affichage d'une requête de sélection de tous les stagiaires à partir du 3ème résultat et des 5 suivants
 
 SELECT *
 FROM stagiaires
-LIMIT 3,5;
+LIMIT 2,5;
+
+Autre méthode : 
+SELECT *
+FROM stagiaires
+LIMIT 5 OFFSET 2;
+
+
+
