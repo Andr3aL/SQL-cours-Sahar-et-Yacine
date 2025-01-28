@@ -142,5 +142,158 @@ SELECT *
 FROM stagiaires
 LIMIT 5 OFFSET 2;
 
+-- Afficher les 4 premiers stagiaires qui ont les yeux marron
+
+SELECT *
+FROM stagiaires
+WHERE yeux = 'marron'
+LIMIT 0,4;
+
+
+
+-- Afficher les 4 premiers stagiaires qui ont les yeux marron en triant les prenom dans l'ordre alphabétique
+
+SELECT *
+FROM stagiaires
+WHERE yeux = 'marron'
+ORDER BY prenom ASC
+LIMIT 0,4;
+
+
+
+-- Compter le nombre de stagiaires
+
+SELECT COUNT(*) AS nb_de_stagiaires
+FROM stagiaires;
+
+
+
+-- Compter le nombre de stagiaires hommes mais en changeant le nom de la colonne de résultat par *nb_stagiaires_H*
+
+
+
+SELECT COUNT(*) AS nb_stagiaires_H
+FROM stagiaires
+WHERE genre = 'm';
+
+
+
+-- Compter le nombre de couleurs des yeux différentes
+
+
+SELECT DISTINCT yeux AS nb_couleurs_yeux_diff
+FROM stagiaires;
+
+
+-- Afficher le prénom et les yeux du stagiaire qui a l'id_stagiaire le plus petit
+
+
+1ère façon de faire : 
+SELECT prenom, yeux
+FROM stagiaires
+ORDER BY id_stagiaires ASC
+LIMIT 1;
+
+2ème façon de faire : 
+SELECT prenom, yeux
+FROM stagiaires
+WHERE id_stagiaires = (SELECT MIN(id_stagiaires) FROM stagiaires);
+
+
+
+
+-- Afficher les stagiaires qui ont les yeux bleu et vert
+
+SELECT *
+FROM stagiaires
+WHERE yeux = 'vert' OR yeux = 'bleu';
+
+
+
+-- A l'inverse maintenant, afficher les stagiaires qui n'ont pas les yeux bleu ni vert
+
+
+SELECT *
+FROM stagiaires
+WHERE yeux != 'vert' AND yeux != 'bleu';
+
+
+
+-- Afficher combien de bonbons ont été consommés au total
+
+SELECT SUM(quantite) AS nb_total_bonbons_conso
+FROM mange_bonbon;
+
+
+
+-- Afficher les saveurs des bonbons (sans doublons)
+
+SELECT DISTINCT saveur
+FROM bonbons;
+
+
+
+-- Afficher le prénom et les yeux du stagiaire qui a l'id le plus grand /!\ c'est une requête imbriquée qu'il faut faire (requête sur le résultat d'une autre requête) 
+
+SELECT prenom, yeux
+FROM stagiaires
+WHERE id_stagiaires = (SELECT MAX(id_stagiaires) FROM stagiaires);
+
+
+-- récupérer tous les stagiaires qui ont mangé des bonbons
+
+SELECT *
+FROM mange_bonbon
+WHERE quantite != 0;
+
+
+-- Récupérez les informations sur les stagiaires qui ont mangé plus d'un seul bonbon
+
+SELECT *
+FROM mange_bonbon
+WHERE quantite > 1;
+
+
+
+
+
+
+-- Afficher le prénom du stagiaire, le nom du bonbon, la date de consommation pour tous les stagiaires qui ont mangé au moins une fois
+
+-- SELECT stagiaires.prenom AS prenom_stagiaire, bonbons.nom AS nom_bonbon, mange_bonbon.date_manger AS date_conso
+-- FROM stagiaires
+-- WHERE quantite != 0;
+
+SELECT stagiaires.prenom AS prenom_stagiaire, bonbons.nom AS nom_bonbon, mange_bonbon.date_manger AS date_conso
+FROM stagiaires
+JOIN mange_bonbon ON stagiaires.id_stagiaires = mange_bonbon.id_stagiaires
+JOIN bonbons ON mange_bonbon.id_bonbons = bonbons.id_bonbons
+WHERE quantite != 0;
+
+
+
+-- Afficher le nombre de consommation de *Tagada*
+-- PAS OK
+
+SELECT COUNT(*) AS nb_tagada_par_stagiaire
+FROM mange_bonbon
+WHERE id_bonbons = 2;
+
+
+-- Afficher cette fois le total de "tagada" consommées
+-- PAS OK
+
+SELECT SUM('tagada') AS nb_total_tagada_conso
+FROM mange_bonbon
+WHERE 
+
+
+
+-- Afficher le prénom du stagiaire qui a mangé le plus de bonbons
+
+SELECT id_stagiaires
+FROM mange_bonbon
+WHERE quantite = (SELECT MAX(quantite) FROM mange_bonbon);
+
 
 
