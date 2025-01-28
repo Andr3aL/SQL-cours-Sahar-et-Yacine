@@ -4,7 +4,7 @@ SELECT * FROM stagiaires;
 
 -- Rajouter un nouveau stagiaire *Delmmma* en forçant la numérotation de l'id (100), yeux(vert)
 
-INSERT INTO stagiaires(id_stagiaires, prenom, yeux) VALUES (100, 'Delmmma', 'vert');
+INSERT INTO stagiaires(id_stagiaires, prenom, yeux, genre) VALUES (100, 'Delmmma', 'vert', 'm');
 
 -- Rajouter un nouveau stagiaire *Mamadou* SANS forcer la numérotation de l'id, yeux(bleu)
 
